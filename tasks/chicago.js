@@ -53,8 +53,7 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('chicago', 'Grunt plugin to handle JavaScript file imports', function() {
 		var options = this.options({
-			punctuation: '.',
-			separator: ', '
+			always_write : true,
 		});
 
 		var files = {},
@@ -93,6 +92,10 @@ module.exports = function(grunt) {
 			var object = files[ key ],
 				content = grunt.file.read( object.path );
 			if( content.indexOf( '// @import' ) < 0 ) {
+				if( options.always_write && object.file != object.dest ) {
+					grunt.log.warn( "No imports found - Writing " + object.file + " to " + object.dest + "." );
+					grunt.file.write( object.dest, content );
+				}
 				continue;
 			}
 			var contentArray = content.split( '\n' );

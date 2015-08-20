@@ -28,6 +28,9 @@ module.exports = function(grunt) {
 
 		chicago: {
 			default_options : {
+				options : {
+					always_write : true,
+				},
 				// files : {
 				// 	src : [ 'tmp/test.js', 'tmp' ]
 				// }
