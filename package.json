@@ -1,7 +1,7 @@
 {
 	"name": "grunt-chicago",
 	"description": "Grunt plugin to handle JavaScript file imports",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"homepage": "https://github.com/nielse63/grunt-chicago",
 	"author": {
 		"name": "Erik Nielsen",
