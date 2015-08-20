@@ -51,11 +51,7 @@ var path = require('path');
 
 module.exports = function(grunt) {
 
-	// Please see the Grunt documentation for more information regarding task
-	// creation: http://gruntjs.com/creating-tasks
-
 	grunt.registerMultiTask('chicago', 'Grunt plugin to handle JavaScript file imports', function() {
-		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
 			punctuation: '.',
 			separator: ', '
@@ -64,36 +60,31 @@ module.exports = function(grunt) {
 		var files = {},
 			root = process.cwd();
 
-		// Iterate over all specified file groups.
 		this.files.forEach(function(f) {
 
 			f.src.filter(function(filepath) {
-				if ( ! grunt.file.exists( filepath ) ) {
+
+				if ( ! grunt.file.exists( filepath ) || ! grunt.file.isFile( filepath ) ) {
 					return false;
 				} else {
 					return true;
 				}
+
 			}).map(function(filepath) {
+
 				var abspath = path.resolve( root, filepath );
-				if( grunt.file.isDir( filepath ) ) {
-					grunt.file.recurse( filepath, function( abspath, rootdir, subdir, filename ) {
-						if( ! files[ abspath ] ) {
-							var _abspath = path.resolve( root, abspath );
-							files[ abspath ] = {
-								file : abspath,
-								path : _abspath,
-								folder : path.dirname( _abspath ),
-							};
-						}
-					});
-				} else {
-					if( ! files[ filepath ] ) {
-						files[ filepath ] = {
-							file : filepath,
-							path : abspath,
-							folder : path.dirname( abspath ),
-						};
-					}
+
+				if( ! f.dest || f.dest == 'src' ) {
+					f.dest = filepath
+				}
+
+				if( ! files[ filepath ] ) {
+					files[ filepath ] = {
+						file : filepath,
+						path : abspath,
+						folder : path.dirname( abspath ),
+						dest : f.dest,
+					};
 				}
 			});
 		});
@@ -135,7 +126,8 @@ module.exports = function(grunt) {
 				}
 			}
 			var outputContent = outputArray.join( '\n' );
-			grunt.file.write( object.path, outputContent );
+			grunt.log.ok( "Writing file to " + object.dest + "." );
+			grunt.file.write( object.dest, outputContent );
 		}
 	});
 

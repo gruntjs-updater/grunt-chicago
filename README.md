@@ -51,11 +51,28 @@ Set the source files/directories in your Gruntfile:
 grunt.initConfig({
   chicago: {
     files: {
-      'src' : [ 
-        'src/file.js', 
-        'src/directory' 
+      'src' : [
+        'src/file.js',
+        'src/directory'
        ]
     },
+  },
+});
+```
+
+Or using [globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns):
+
+```js
+grunt.initConfig({
+  chicago: {
+    files: [{
+      expand: true,
+        cwd: 'src',
+        src: [ '*.js', '!*.min.js' ],
+        dest: 'dest',
+        ext: '.js',
+        extDot : 'last'
+      }],
   },
 });
 ```

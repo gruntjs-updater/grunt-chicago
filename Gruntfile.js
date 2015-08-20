@@ -28,9 +28,17 @@ module.exports = function(grunt) {
 
 		chicago: {
 			default_options : {
-				files : {
-					src: [ 'tmp/test.js', 'tmp' ]
-				}
+				// files : {
+				// 	src : [ 'tmp/test.js', 'tmp' ]
+				// }
+				files: [{
+					expand: true,
+					cwd: 'tmp',
+					src: [ '*.js', '!*.min.js' ],
+					dest: 'dist',
+					ext: '.js',
+					extDot : 'last'
+				}]
 			},
 		},
 
