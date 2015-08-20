@@ -25,6 +25,9 @@ In your project's Gruntfile, add a section named `chicago` to the data object pa
 ```js
 grunt.initConfig({
   chicago: {
+    options : {
+    	// Options for all targets
+    }
     your_target: {
       // Target-specific file lists and/or options go here.
     },
@@ -34,7 +37,10 @@ grunt.initConfig({
 
 ### Options
 
-_This plugin doesn't accept options_
+#### options.always_write
+Type: ```bool``` Default Value: ```true```
+
+Whether or not to write the file to the destination, even if it doesn't include an import statement.
 
 ### Usage Examples
 
@@ -51,11 +57,30 @@ Set the source files/directories in your Gruntfile:
 grunt.initConfig({
   chicago: {
     files: {
-      'src' : [ 
-        'src/file.js', 
-        'src/directory' 
+      src : [
+        'src/file.js',
+        'src/directory'
        ]
     },
+  },
+});
+```
+
+Or using [globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns):
+
+```js
+grunt.initConfig({
+  chicago: {
+    target_name: {
+      files: [{
+        expand: true,
+        cwd: 'src',
+        src: [ '*.js', '!*.min.js' ],
+        dest: 'dest',
+        ext: '.js',
+        extDot : 'last'
+      }],
+    }
   },
 });
 ```
@@ -70,4 +95,9 @@ grunt chicago
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-* 2015-08-19 - **v1.0.0** - Initial Release
+* 2015-08-20 - **v1.0.2**
+	* Added ```always_write``` option.
+* 2015-08-19 - **v1.0.1**
+	* Enabled file pattern matching.
+* 2015-08-19 - **v1.0.0**
+	* Initial Release.
